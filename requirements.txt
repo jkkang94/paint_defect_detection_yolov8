@@ -2,3 +2,6 @@ streamlit
 numpy
 pandas
 Pillow
+torch
+torchvision
+opencv-python
