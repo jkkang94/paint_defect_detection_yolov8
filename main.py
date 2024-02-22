@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import cv2
 
 # 메인 페이지 설정
 st.title('Image Detection App')
