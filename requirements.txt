@@ -1,6 +1,6 @@
 streamlit
-numpy
 pandas
 Pillow
 torch
-opencv-python-headless
+numpy==1.19.2
+opencv-python==4.4.0.44
