@@ -28,10 +28,10 @@ def download_model(url, destination):
     print(f"Model downloaded to {destination}")
 
 # 모델 URL (GitHub에서 직접 다운로드 가능한 raw 파일 링크)
-model_url = "https://github.com/yourusername/yourrepository/raw/main/path/to/your/model.pt"
+model_url = "https://github.com/jkkang94/streamlit/model/best.pt"
 
 # 모델 저장 위치
-model_path = "path/to/save/model.pt"
+model_path = "model/best.pt"
 
 # 파일이 이미 존재하지 않는 경우에만 다운로드
 if not Path(model_path).is_file():
