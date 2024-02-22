@@ -3,6 +3,3 @@ numpy
 pandas
 Pillow
 torch
-torchvision
-opencv-python
-Cv2
