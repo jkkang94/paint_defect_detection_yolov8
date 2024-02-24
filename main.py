@@ -1,30 +1,71 @@
+# Import required libraries
+import PIL
+
 import streamlit as st
-from PIL import Image
-import cv2
+from ultralytics import YOLO
 
-# 메인 페이지 설정
-st.title('Image Detection App')
-st.write('Upload an image and click "Detect" to start the detection process.')
+# Replace the relative path to your weight file
+model_path = './yolov8/weights/best.pt'
 
-# 사진 업로드 위젯
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-
-# 사이드바 설정
-st.sidebar.title("Settings")
-# 예시 설정: 감지 정확도 임곗값 (실제 모델에 따라 조정)
-confidence_threshold = st.sidebar.slider("Confidence Threshold", 0.0, 1.0, 0.5, 0.01)
-# 여기에 추가 설정을 추가할 수 있습니다.
-
-if uploaded_file is not None:
-    # PIL로 이미지를 열기
-    image = Image.open(uploaded_file)
+# Setting page layout
+st.set_page_config(
+    page_title="Object Detection",  # Setting page title
+    page_icon="🤖",     # Setting page icon
+    layout="wide",      # Setting layout to wide
+    initial_sidebar_state="expanded",    # Expanding sidebar by default
     
-    # 이미지 표시
-    st.image(image, caption='Uploaded Image.', use_column_width=True)
+)
 
-    # "Detect" 버튼
-    if st.button('Detect'):
-        st.write("Detection started...")
-        # 여기에 이미지 감지 로직을 추가합니다.
-        # 예: detect_objects(image, confidence_threshold)
-        # 감지 결과를 화면에 표시하는 코드를 여기에 추가합니다.
+# Creating sidebar
+with st.sidebar:
+    st.header("Image Config")     # Adding header to sidebar
+    # Adding file uploader to sidebar for selecting images
+    source_img = st.file_uploader(
+        "Upload an image...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
+
+    # Model Options
+    confidence = float(st.slider(
+        "Select Model Confidence", 25, 100, 40)) / 100
+
+# Creating main page heading
+st.title("Object Detection")
+st.caption('Updload a photo with this :blue[hand signals]: :+1:, :hand:, :i_love_you_hand_sign:, and :spock-hand:.')
+st.caption('Then click the :blue[Detect Objects] button and check the result.')
+# Creating two columns on the main page
+col1, col2 = st.columns(2)
+
+# Adding image to the first column if image is uploaded
+with col1:
+    if source_img:
+        # Opening the uploaded image
+        uploaded_image = PIL.Image.open(source_img)
+        # Adding the uploaded image to the page with a caption
+        st.image(source_img,
+                 caption="Uploaded Image",
+                 use_column_width=True
+                 )
+
+try:
+    model = YOLO(model_path)
+except Exception as ex:
+    st.error(
+        f"Unable to load model. Check the specified path: {model_path}")
+    st.error(ex)
+
+if st.sidebar.button('Detect Objects'):
+    res = model.predict(uploaded_image,
+                        conf=confidence
+                        )
+    boxes = res[0].boxes
+    res_plotted = res[0].plot()[:, :, ::-1]
+    with col2:
+        st.image(res_plotted,
+                 caption='Detected Image',
+                 use_column_width=True
+                 )
+        try:
+            with st.expander("Detection Results"):
+                for box in boxes:
+                    st.write(box.xywh)
+        except Exception as ex:
+            st.write("No image is uploaded yet!")
