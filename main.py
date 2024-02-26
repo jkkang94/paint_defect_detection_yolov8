@@ -28,7 +28,7 @@ with st.sidebar:
         "Select Model Confidence", 25, 100, 40)) / 100
 
 # Creating main page heading
-st.title("Object Detection")
+st.title("Car Paint Defect Detection")
 st.caption('Please upload a image of the car paint defect.')
 st.caption('Then click the :blue[Detect Objects] button and check the result.')
 # Creating two columns on the main page
