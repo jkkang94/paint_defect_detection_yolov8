@@ -9,7 +9,7 @@ model_path = './yolov8/weights/best.pt'
 
 # Setting page layout
 st.set_page_config(
-    page_title="Object Detection",  # Setting page title
+    page_title="Car Paint Defect Detection",  # Setting page title
     page_icon="🤖",     # Setting page icon
     layout="wide",      # Setting layout to wide
     initial_sidebar_state="expanded",    # Expanding sidebar by default
@@ -29,7 +29,7 @@ with st.sidebar:
 
 # Creating main page heading
 st.title("Object Detection")
-st.caption('Updload a photo with this :blue[hand signals]: :+1:, :hand:, :i_love_you_hand_sign:, and :spock-hand:.')
+st.caption('Please upload a image of the car paint defect.')
 st.caption('Then click the :blue[Detect Objects] button and check the result.')
 # Creating two columns on the main page
 col1, col2 = st.columns(2)
