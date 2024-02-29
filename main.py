@@ -25,7 +25,7 @@ with st.sidebar:
 
     # Model Options
     confidence = float(st.slider(
-        "Select Model Confidence", 25, 100, 40)) / 100
+        "Select Model Confidence", 0, 100, 40)) / 100
 
 # Creating main page heading
 st.title("Car Paint Defect Detection")
